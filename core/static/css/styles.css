@@ -294,3 +294,8 @@ footer p a:hover {
 .small {
     margin-top: 15px;
 }
+
+.big-btn {
+    padding: 20px 60px;
+    font-size: 1.4rem;
+}

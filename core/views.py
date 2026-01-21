@@ -92,3 +92,16 @@ def download_file(request, code):
     threading.Thread(target=delete_file_later, args=(zip_path,)).start()
 
     return response
+
+
+def preview_file(request, code):
+    files = SharedFile.objects.filter(code=code)
+
+    if not files.exists():
+        return render(request, "receive.html", {"error": "Invalid or expired code"})
+
+    if files.first().is_expired():
+        files.delete()
+        return render(request, "receive.html", {"error": "Code expired"})
+
+    return render(request, "download.html", {"code": code})

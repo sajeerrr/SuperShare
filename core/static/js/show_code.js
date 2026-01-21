@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const codeText = document.getElementById("codeText").innerText.trim();
 
     const baseURL = getBaseURL();
-    const downloadUrl = `${baseURL}/download/${codeText}/`;
+    const downloadUrl = `${baseURL}/preview/${codeText}/`;
 
     // TIMER
     const interval = setInterval(() => {

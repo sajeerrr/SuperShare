@@ -108,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         xhr.onload = function () {
             if (xhr.status === 200 || xhr.status === 302) {
-                document.body.innerHTML = xhr.responseText;
+                // Proper navigation
+                document.open();
+                document.write(xhr.responseText);
+                document.close();
             }
         };
 
