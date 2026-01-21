@@ -19,9 +19,12 @@
         <h1>Ready to Download</h1>
         <p class="warning-text">⚠ One-time access only</p>
 
-        <a href="/download/{{ code }}/" class="btn btn-primary" onclick="warnUser()">
+        <a href="/download/{{ code }}/" class="btn btn-primary" onclick="return handleDownload('{{ code }}')">
             Download Now
         </a>
+        <p id="downloadMessage" style="color: red; margin-top: 15px; display: none;">
+            You already downloaded the file.
+        </p>
 
         <p class="download-note">
             Files auto-delete after download.
