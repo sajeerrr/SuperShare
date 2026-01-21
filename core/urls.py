@@ -7,5 +7,4 @@ urlpatterns = [
     path('receive/', views.receive_file, name="receive"),
     path('download/<code>/', views.download_file, name="download"),
     path('preview/<code>/', views.preview_file, name="preview"),
-    path('regenerate/<code>/', views.regenerate_code, name="regenerate"),
 ]

@@ -105,19 +105,3 @@ def preview_file(request, code):
         return render(request, "receive.html", {"error": "Code expired"})
 
     return render(request, "download.html", {"code": code})
-
-from django.http import JsonResponse
-
-def regenerate_code(request, code):
-    files = SharedFile.objects.filter(code=code)
-
-    if not files.exists():
-        return JsonResponse({"error": "Invalid code"}, status=400)
-
-    new_code = generate_unique_code()
-
-    for f in files:
-        f.code = new_code
-        f.save()
-
-    return JsonResponse({"new_code": new_code})
