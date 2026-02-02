@@ -4,7 +4,7 @@ SuperShare is a lightweight and secure file-sharing web application that enables
 
 ---
 
-## 🚀 Features
+## Features
 
 - Instant file upload and sharing  
 - Secure, shareable download links  
@@ -15,13 +15,13 @@ SuperShare is a lightweight and secure file-sharing web application that enables
 
 ---
 
-## ⭐ Unique Feature
+## Unique Feature
 
 - One-click file sharing without mandatory account registration
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 - HTML
@@ -29,7 +29,7 @@ SuperShare is a lightweight and secure file-sharing web application that enables
 - JavaScript
 
 ### Backend
-- Django / PHP / Node.js
+- Django
 
 ### Database
 - SQLite / MySQL
@@ -44,7 +44,7 @@ SuperShare is a lightweight and secure file-sharing web application that enables
 
 ---
 
-## 📂 Project Setup
+## Project Setup
 
 ### Prerequisites
 - Python 3.x  
