@@ -1,51 +1,54 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Code – SuperShare</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
 
-<div class="bg-animation">
-    <div class="neural-network"></div>
-    <div class="particles"></div>
-</div>
-
-<section class="hero">
-    <div class="hero-content">
-        <h1>Your Code</h1>
-        <p>Share this with your receiver</p>
-
-        <!-- CODE VIEW -->
-        <div class="code-box" id="codeBox">
-            <span id="codeText">{{ code }}</span>
-        </div>
-
-        <!-- QR VIEW -->
-        <div class="code-box hidden" id="qrBox">
-            <canvas id="qrCanvas"></canvas>
-        </div>
-
-        <p id="timer" class="timer">Expires in 05:00</p>
-
-        <div class="progress-container">
-            <div id="progress" class="progress-bar"></div>
-        </div>
-
-        <div class="code-actions">
-            <button id="qrBtn" class="btn btn-secondary">QR</button>
-            <a href="/" id="homeBtn" class="btn btn-secondary">Home</a>
-            <button id="backBtn" class="btn btn-secondary hidden">Back</button>
-        </div>
-
+    <div class="bg-animation">
+        <div class="neural-network"></div>
+        <div class="particles"></div>
     </div>
-</section>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="{% static 'js/show_code.js' %}"></script>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Your Code</h1>
+            <p>Share this with your receiver</p>
+
+            <!-- CODE VIEW -->
+            <div class="code-box" id="codeBox">
+                <span id="codeText">{{ code }}</span>
+            </div>
+
+            <!-- QR VIEW -->
+            <div class="code-box hidden" id="qrBox">
+                <canvas id="qrCanvas"></canvas>
+            </div>
+
+            <p id="timer" class="timer">Expires in 05:00</p>
+
+            <div class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+
+            <div class="code-actions">
+                <button id="qrBtn" class="btn btn-secondary">QR</button>
+                <a href="/" id="homeBtn" class="btn btn-secondary">Home</a>
+                <button id="backBtn" class="btn btn-secondary hidden">Back</button>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="{% static 'js/show_code.js' %}"></script>
 
 </body>
+
 </html>

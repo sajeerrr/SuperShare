@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.http import FileResponse
+from django.http import HttpResponse
 from .models import SharedFile
-import random, string, zipfile, os
-from django.conf import settings
-import threading
-import time
+import random
+import string
+import zipfile
+import io
+
 
 def generate_unique_code():
     while True:
@@ -27,7 +28,12 @@ def upload_file(request):
         code = generate_unique_code()
 
         for f in files:
-            SharedFile.objects.create(code=code, file=f)
+            SharedFile.objects.create(
+                code=code,
+                filename=f.name,
+                content_type=f.content_type or 'application/octet-stream',
+                file_data=f.read(),
+            )
 
         return render(request, "show_code.html", {"code": code})
 
@@ -51,15 +57,6 @@ def receive_file(request):
     return render(request, "receive.html")
 
 
-def delete_file_later(path, delay=5):
-    time.sleep(delay)
-    try:
-        if os.path.exists(path):
-            os.remove(path)
-    except:
-        pass
-
-
 def download_file(request, code):
     files = SharedFile.objects.filter(code=code)
 
@@ -70,27 +67,32 @@ def download_file(request, code):
         files.delete()
         return render(request, "receive.html", {"error": "Code expired"})
 
-    # Single file
+    # Single file — serve directly from DB
     if files.count() == 1:
         f = files.first()
-        response = FileResponse(open(f.file.path, "rb"), as_attachment=True)
-        files.delete()  # deletes DB + disk
+        response = HttpResponse(
+            bytes(f.file_data),
+            content_type=f.content_type,
+        )
+        response['Content-Disposition'] = f'attachment; filename="{f.filename}"'
+        files.delete()
         return response
 
-    # Multiple → ZIP
-    zip_path = os.path.join(settings.MEDIA_ROOT, f"{code}.zip")
-
-    with zipfile.ZipFile(zip_path, "w") as zipf:
+    # Multiple files → ZIP in memory
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
         for f in files:
-            zipf.write(f.file.path, os.path.basename(f.file.path))
+            zipf.writestr(f.filename, bytes(f.file_data))
 
-    response = FileResponse(open(zip_path, "rb"), as_attachment=True)
+    buffer.seek(0)
 
-    files.delete()  # delete originals
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type='application/zip',
+    )
+    response['Content-Disposition'] = f'attachment; filename="{code}.zip"'
 
-    # delete zip later
-    threading.Thread(target=delete_file_later, args=(zip_path,)).start()
-
+    files.delete()
     return response
 
 

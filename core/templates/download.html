@@ -1,36 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download – SuperShare</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
 
-<div class="bg-animation">
-    <div class="neural-network"></div>
-    <div class="particles"></div>
-</div>
-
-<section class="hero">
-    <div class="hero-content">
-        <h1>Ready to Download</h1>
-        <p class="warning-text">⚠ One-time access only</p>
-
-        <a href="/download/{{ code }}/" class="btn btn-primary" onclick="return handleDownload('{{ code }}')">
-            Download Now
-        </a>
-        <p id="downloadMessage" style="color: red; margin-top: 15px; display: none;">
-            You already downloaded the file.
-        </p>
-
-        <p class="download-note">
-            Files auto-delete after download.
-        </p>
+    <div class="bg-animation">
+        <div class="neural-network"></div>
+        <div class="particles"></div>
     </div>
-</section>
-<script src="{% static 'js/download.js' %}"></script>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Ready to Download</h1>
+            <p class="warning-text">⚠ One-time access only</p>
+
+            <a href="/download/{{ code }}/" class="btn btn-primary" onclick="return handleDownload('{{ code }}')">
+                Download Now
+            </a>
+            <p id="downloadMessage" style="color: red; margin-top: 15px; display: none;">
+                You already downloaded the file.
+            </p>
+
+            <p class="download-note">
+                Files auto-delete after download.
+            </p>
+        </div>
+    </section>
+    <script src="{% static 'js/download.js' %}"></script>
 </body>
+
 </html>

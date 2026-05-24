@@ -74,7 +74,7 @@ body {
     font-size: 1.05rem;
     letter-spacing: 0.5px;
 
-    transition: 
+    transition:
         transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
         box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
         filter 0.35s ease,
@@ -86,7 +86,7 @@ body {
 /* Premium Hover */
 .btn-primary:hover {
     transform: translateY(-2px) scale(1.08);
-    box-shadow: 
+    box-shadow:
         0 10px 30px rgba(0, 255, 255, 0.35),
         0 0 25px rgba(255, 0, 255, 0.5);
     filter: brightness(1.1);

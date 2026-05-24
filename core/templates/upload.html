@@ -1,50 +1,53 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload – SuperShare</title>
     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
 </head>
+
 <body>
 
-<div class="bg-animation"></div>
+    <div class="bg-animation"></div>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>Upload Files</h1>
-        <p>Select or drag your files</p>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Upload Files</h1>
+            <p>Select or drag your files</p>
 
-        <form method="POST" enctype="multipart/form-data" id="uploadForm">
-            {% csrf_token %}
-            <p id="uploadError" class="error-msg" style="display:none;"></p>
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                {% csrf_token %}
+                <p id="uploadError" class="error-msg" style="display:none;"></p>
 
-            <div class="drop-zone" id="dropZone">
-                <div class="drop-content" id="dropContent">
-                    <div class="plus">+</div>
-                    <p>Drag & Drop files</p>
-                    <span>or click to browse</span>
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-content" id="dropContent">
+                        <div class="plus">+</div>
+                        <p>Drag & Drop files</p>
+                        <span>or click to browse</span>
+                    </div>
+
+                    <ul class="file-list" id="fileList"></ul>
+                    <input type="file" name="files" id="fileInput" multiple hidden>
                 </div>
 
-                <ul class="file-list" id="fileList"></ul>
-                <input type="file" name="files" id="fileInput" multiple hidden>
-            </div>
+                <!-- Loader -->
+                <div id="loader" class="loader" style="display:none;">
+                    <div class="circle"></div>
+                    <p id="progressText">0%</p>
+                </div>
 
-            <!-- Loader -->
-            <div id="loader" class="loader" style="display:none;">
-                <div class="circle"></div>
-                <p id="progressText">0%</p>
-            </div>
+                <button class="btn-primary big-btn" id="submitBtn" type="submit">
+                    Generate Code
+                </button>
+            </form>
 
-            <button class="btn-primary big-btn" id="submitBtn" type="submit">
-                Generate Code
-            </button>
-        </form>
+        </div>
+    </section>
 
-    </div>
-</section>
-
-<script src="{% static 'js/upload.js' %}"></script>
+    <script src="{% static 'js/upload.js' %}"></script>
 </body>
+
 </html>

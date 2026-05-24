@@ -1,11 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-
 from django.http import HttpResponse
 from django.conf import settings
 import os
+
 
 def sitemap_view(request):
     sitemap_path = os.path.join(settings.BASE_DIR, "sitemap.xml")
@@ -23,6 +21,3 @@ urlpatterns = [
     path("sitemap.xml", sitemap_view),
     path("robots.txt", robots_view),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
