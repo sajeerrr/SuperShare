@@ -5,4 +5,7 @@ db.sqlite3
 media/
 staticfiles/
 .env
+.env.local
+.env.production
 supershare.sock
+*.log

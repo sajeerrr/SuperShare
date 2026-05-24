@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /download/
+Disallow: /preview/
 
 Sitemap: https://supershare.webs.vc/sitemap.xml

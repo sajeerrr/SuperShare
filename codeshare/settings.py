@@ -21,16 +21,54 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pf5_p@2))&mt87i@^^bc*_hkf&+@3=*mathnp*sw4tng0z_s@3'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-pf5_p@2))&mt87i@^^bc*_hkf&+@3=*mathnp*sw4tng0z_s@3'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
-ALLOWED_HOSTS = ["*"]
+
+# ──────────────────────────────────────────
+# Security settings (auto-enabled in production)
+# ──────────────────────────────────────────
+if not DEBUG:
+    # HTTPS / SSL
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    # Cookies
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+
+    # HSTS — tell browsers to always use HTTPS
+    SECURE_HSTS_SECONDS = 31536000        # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # Prevent MIME-type sniffing
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
+    # XSS filter
+    SECURE_BROWSER_XSS_FILTER = True
+
+    # Clickjacking protection (already in middleware, this is belt-and-suspenders)
+    X_FRAME_OPTIONS = 'DENY'
+
+    # Referrer policy
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+    # Cross-origin opener policy
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+else:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
 
 
 # Application definition
@@ -47,6 +85,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,15 +166,13 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-CRONJOBS = [
-    ('*/1 * * * *', 'core.cleanup.delete_expired_files'),  # every minute
-]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core', 'static'),
@@ -143,3 +180,11 @@ STATICFILES_DIRS = [
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024  # 500MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024  # 500MB
+
+# ──────────────────────────────────────────
+# CSRF Trusted Origins (required for hosted domains)
+# ──────────────────────────────────────────
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://supershare.webs.vc'
+).split(',')
